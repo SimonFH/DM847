@@ -1,0 +1,6 @@
+To apply the Burrows–Wheeler transform, run the command
+  rscript BWT.R someInputString
+This outputs the BWT to the file bwt.txt.
+
+To recreate the original string, run the command
+  rscript BWT.R -d bwt.txt
