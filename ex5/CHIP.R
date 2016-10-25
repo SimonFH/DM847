@@ -25,9 +25,6 @@ for(i in 1:size){
   #dns$fwd[i] <- sum(hst$fwd[left:right])/nvals
 }
 
-#hst$rev <- -hst$rev
-#dns$rev <- Map('-', dns$rev)
-
 
 #c
 locMax <- function(x,i){
@@ -70,11 +67,17 @@ names(lmidx3[[2]]) <- NULL
 
 
 # e)
+
+# Assuming "+" is the coding strand, we look between 120 and 200 bp upstream for a peak on the "-" strand.
 res <- NULL
 for (x in lmidx3$fwd){
-  q <- c(((x-200):(x-120)),((x+120):(x+200)))
+  q <- ((x+120):(x+200))
   z <- q%in%lmidx3$rev
-  res <- c(res,q[z][which.max(unlist(dns$rev[q[z]]))])
+  if(sum(z)>0){
+    res <- c(res,q[z][which.max(unlist(dns$rev[q[z]]))])
+  }else{
+    res <- c(res, 0)
+  }
 }
 result <- data.frame(fwd=lmidx3$fwd, rev=res)
 print(result)
