@@ -1,0 +1,10 @@
+To run the program on the given file either:
+  a) Execute the script "run.sh" without arguments
+or
+  b) Run the commands
+       rscript SEQMOTIF.R ex4_upstream.fas.txt 19
+     followed by
+       rscript selo.R candidates.csv -s IC -t DNA -f CSV -bg bgdist.csv
+
+This will output the sequence logo to the file "out.png" and the consensus sequence to "consensus.txt".
+Note that you might have to run the program several times for a decent output since it might guess a "bad" starting position.
