@@ -71,7 +71,7 @@ names(lmidx3[[2]]) <- NULL
 # Assuming "+" is the coding strand, we look between 120 and 200 bp upstream for a peak on the "-" strand.
 res <- NULL
 for (x in lmidx3$fwd){
-  q <- ((x+120):(x+200))
+  q <- ((x+100):(x+250))
   z <- q%in%lmidx3$rev
   if(sum(z)>0){
     res <- c(res,q[z][which.max(unlist(dns$rev[q[z]]))])
