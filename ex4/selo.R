@@ -2,7 +2,6 @@ args <- commandArgs(trailingOnly = TRUE)
 if (length(args)<1){stop("Script takes arguments: (inputfile path) [-t DNA|LETTERS ] [-s IC|RE] [-f CSV|FAS] [-bg path]")}
 
 
-
 format <- args[((1:length(args))[args=="-f"]+1)]
 format <- toupper(format)
 if(length(format)>0 && format == "CSV"){
@@ -17,9 +16,7 @@ type <- args[((1:length(args))[args=="-t"]+1)]
 if (length(type)>0 && toupper(type) == "LETTERS"){
   bgdist <- setNames(rep(1/26, 26), LETTERS)
 } else {
-  bgtypes <- c('A','T','C','G')
-  bgvals <- c(0.2,0.2,0.3,0.3)
-  bgdist <- setNames(bgvals, bgtypes)
+  bgdist <- c('A'=0.2, 'T'=0.2, 'C'=0.3, 'G'=0.3)
 }
 
 # if background distribution supplied, overwrite the above
@@ -46,7 +43,8 @@ rownames(rPWM)<-toupper(rownames(rPWM))
 
 # Relative PWM with pseudo counts
 # add pseudo counts to absolute
-apPWM <- aPWM + bgdist*length(types)
+apPWM <- apply(aPWM, 2, FUN=function(x){x + bgdist[names(x)]*length(types)})
+
 # calculate relative with pseudo counts, aka. "weight matrix"
 pPWM <- apPWM/(nrow(foo)+length(types))
 
